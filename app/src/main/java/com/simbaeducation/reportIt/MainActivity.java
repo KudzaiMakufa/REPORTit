@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         Cursor res = myDb.getLoginData("Users" , edemail.getText().toString(), edpass.getText().toString());
 
                         if(res.getCount() == 0) {
-                            myDb.insertUser("Users","Admin","","" , 0,1);
+                           // myDb.insertUser("Users","Admin","","" , 0,1);
 
 
                             edemail.setVisibility(View.GONE);
@@ -115,19 +115,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
 
-
-                           /* AlertDialog.Builder alertWrong = new AlertDialog.Builder(MainActivity.this);
-
-                            alertWrong.setMessage("Invalid Email or Pin").setCancelable(false)
-                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            AlertDialog alert = alertWrong.create();
-                            alert.setTitle("Warning");
-                            alert.show();*/
                         }
                         else
                         {
@@ -142,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                                 else{
+
 
                                     edemail.setText("");
                                     edpass.setText("");
