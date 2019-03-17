@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="igestdev.com.leavetracker.AddDateActivity">
+
+    <item android:id="@+id/action_share"
+        android:title="Share"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_share"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/action_delete"
+        android:title="Delete"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_discard"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/layoutroot"
+    android:padding="10dip" >
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip">
+
+        <ImageView
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/sick_leave" />
+
+    </LinearLayout>
+
+    <!-- Title Of Song-->
+    <TextView
+        android:id="@+id/leavetype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="Sick Day "
+        android:textColor="@android:color/black"
+        android:textSize="15dip"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/datetaken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/leavetype"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="Monday 25th October 2015"
+        android:textColor="@android:color/black"
+        android:textSize="12dip"
+        android:textStyle="italic"
+        android:typeface="sans" />
+
+    <!-- Artist Name -->
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/datetaken"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="Emergnecy meeting had to leave"
+        android:textColor="@android:color/black"
+        android:textSize="12dip" />
+
+    <!-- Rightend Duration -->
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/title"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dip"
+        android:gravity="right"
+        android:text="Half Day"
+        android:textColor="#EF2929"
+        android:textSize="12dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
+
+</RelativeLayout>
