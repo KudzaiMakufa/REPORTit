@@ -41,6 +41,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.simbaeducation.reportIt.Registration.CodeCheck;
 import com.simbaeducation.reportIt.Registration.EmailSenderAsync;
 import com.simbaeducation.reportIt.Registration.SendMail;
 import com.simbaeducation.reportIt.Webservice.ServiceGetData;
@@ -76,6 +77,7 @@ public class initialSystemView extends AppCompatActivity {
     private static final int FILE_SELECT_CODE = 0;
     private static ListView list;
     private static  boolean IsReached = false;
+    private static Session session ;
     //private static final int PICKFILE_RESULT_CODE = 8778;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -170,77 +172,8 @@ public class initialSystemView extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            Intent intent = new Intent(".adminFromSettings");
+            Intent intent = new Intent(".Settings");
             startActivity(intent);
-
-        }
-        else if(id == R.id.action_backup){
-
-            final String SAMPLE_DB_NAME = "Zaoga.db";
-            AlertDialog.Builder alertWrong = new AlertDialog.Builder(initialSystemView.this);
-
-            alertWrong.setMessage("Backup data?").setCancelable(false)
-                    .setPositiveButton("Backup", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            File sd = Environment.getExternalStorageDirectory();
-                            File data = Environment.getDataDirectory();
-                            FileChannel source=null;
-                            FileChannel destination=null;
-                            String currentDBPath = "/data/"+ "com.example.kudzai.EasySec" +"/databases/"+SAMPLE_DB_NAME;
-
-                            File folder = new File(Environment.getExternalStorageDirectory() +
-                                    File.separator + "EasySecretary/Backup");
-                            boolean success = true;
-                            if (!folder.exists()) {
-                                success = folder.mkdirs();
-                            }
-                            Date_Operations dateop = new Date_Operations();
-                            String currenttime = dateop.GetCurrentTimeAndDate();
-                            String backupDBPath = "" +
-                                    "EasySecretary/Backup/"+SAMPLE_DB_NAME+currenttime;
-                            File currentDB = new File(data, currentDBPath);
-                            File backupDB = new File(sd, backupDBPath);
-                            try {
-                                source = new FileInputStream(currentDB).getChannel();
-                                destination = new FileOutputStream(backupDB).getChannel();
-                                destination.transferFrom(source, 0, source.size());
-                                source.close();
-                                destination.close();
-                                Toast.makeText(getApplicationContext(),"Backup Successful",
-                                        Toast.LENGTH_LONG).show();
-                            } catch(IOException e) {
-                                e.printStackTrace();
-
-                                Toast.makeText(getApplicationContext(),"failed",
-                                        Toast.LENGTH_LONG).show();
-                            }
-
-
-
-
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-
-                }
-            });
-            AlertDialog alert = alertWrong.create();
-            alert.setTitle("Warning");
-            alert.show();
-
-
-
-        }
-        else if(id == R.id.action_report){
-
-            Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
-            intent2.setType("file/*");
-            startActivityForResult(intent2, 8778);
-        }
-        else{
 
         }
 
@@ -358,6 +291,7 @@ public class initialSystemView extends AppCompatActivity {
             else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
 
                 myDb = new Db_Operations(getActivity());
+                 session = new Session(getActivity());
 
 
 
@@ -366,6 +300,8 @@ public class initialSystemView extends AppCompatActivity {
                 spnType = (Spinner)rootView.findViewById(R.id.spnleavetype);
                 spndaytype = (Spinner)rootView.findViewById(R.id.spndaytype);
                 fullname = (EditText)rootView.findViewById(R.id.full_name);
+                fullname.setText(session.getuserid());
+                fullname.setFocusable(false);
 
                 startdate = (EditText)rootView.findViewById(R.id.edtxtEmail);
 
@@ -400,13 +336,21 @@ public class initialSystemView extends AppCompatActivity {
 
                     }
                 });
+                Session session = new Session(getActivity());
+                String gndr = session.getgender();
+                String[] dropdowntype = new String[]{};
 
-                String []  dropdowntype = new String[]{"Select leave type","Medical leave","Vacational Leave", "Maternity Leave","Other"};
+                if(gndr.equals("male")){
+                    dropdowntype = new String[]{"Select leave type", "Medical leave", "Vacational Leave", "Other"};
+                }
+                else {
+
+                }
                 String []  dayType = new String[]{"Select type of day","Whole Day","Half (AM)", "Half (PM)"};
 
                 // Create an ArrayAdapter using the string array and a default spinner layout
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, dropdowntype);
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, dayType);
+                final ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, dayType);
                 // Specify the layout to use when the list of choices appears
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -419,7 +363,7 @@ public class initialSystemView extends AppCompatActivity {
                 spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String leavetype = ((Spinner)rootView.findViewById(R.id.spnleavetype)).getSelectedItem().toString();
+                        String spngender = ((Spinner)rootView.findViewById(R.id.spnleavetype)).getSelectedItem().toString();
 
                     }
 
@@ -433,7 +377,8 @@ public class initialSystemView extends AppCompatActivity {
                 spndaytype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String Spinnergettype = ((Spinner)rootView.findViewById(R.id.spndaytype)).getSelectedItem().toString();
+                        String spngender = ((Spinner)rootView.findViewById(R.id.spndaytype)).getSelectedItem().toString();
+
 
                     }
 
@@ -462,71 +407,94 @@ public class initialSystemView extends AppCompatActivity {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String leavetype = spnType.getSelectedItem().toString();
-                                String daytype = spndaytype.getSelectedItem().toString();
 
-                                if (fullname.length() == 0 ||startdate.length() == 0 || enddate.length() == 0 ){
+                                    String leavetype = spnType.getSelectedItem().toString();
+                                    String daytype = spndaytype.getSelectedItem().toString();
 
-                                    Toast.makeText(getActivity(), "Fill in all the required input fields", Toast.LENGTH_SHORT).show();
+                                    if (startdate.length() == 0 || enddate.length() == 0 ){
 
-                                }
-                                else if(spnType.getSelectedItem().toString() == "Select leave type"){
-                                    Toast.makeText(getActivity(), "Select type of leave", Toast.LENGTH_SHORT).show();
-                                }
-                                else if(spndaytype.getSelectedItem().toString()=="Select type of day"){
-                                    Toast.makeText(getActivity(), "Select type of day", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-
-                                    try{
-
-                                        TestInternet TI = new TestInternet();
+                                        Toast.makeText(getActivity(), "Fill in all the required input fields", Toast.LENGTH_SHORT).show();
 
 
-                                        if(TI.checkOnlineState(getActivity()) == true){
+                                    }
+                                    else if(spnType.getSelectedItem().toString() == "Select leave type"){
+                                        Toast.makeText(getActivity(), "Select type of leave", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else if(spndaytype.getSelectedItem().toString()=="Select type of day"){
+                                        Toast.makeText(getActivity(), "Select type of day", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Cursor result = myDb.getAllData("hodmail");
+
+                                        if (result.getCount() == 0) {
+
+                                            new AlertDialog.Builder(getActivity())
+
+                                                    .setTitle("Warning")
+                                                    .setMessage("SET HOD EMAIL IN SETTINGS!! \n Go to settings to add")
+                                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                                                        public void onClick(DialogInterface arg0, int arg1) {
+                                                            Intent intent = new Intent(".Settings");
+                                                            startActivity(intent);
+
+                                                        }
+                                                    }).create().show();
+
+                                        } else {
+                                            PermissionsUtils.requestWriteExternalPermission(getActivity());
+
+
                                             try {
-                                                new ServiceLogin().execute(leavetype, startdate.getText().toString(), enddate.getText().toString(), daytype, notes.getText().toString());
+                                                result.moveToFirst();
 
-                                                boolean isInserted = myDb.insertLeave("leave", fullname.getText().toString(), leavetype , startdate.getText().toString(),
-                                                        enddate.getText().toString(), daytype, notes.getText().toString());
-                                                new EmailSenderAsync().execute("kidkudzy@gmail.com"
-                                                        , fullname.getText().toString()+" applied for a "+leavetype+
-                                                                " from "+startdate.getText().toString()+" to "+enddate.getText().toString()+"\n Regards \n Simba Education \n Email was generated by REPORTit Mobile APP","Leave Application");
+                                                String email = result.getString(1);
 
-                                                if (isInserted == true) {
-                                                    new AlertDialog.Builder(getActivity())
-                                                            .setTitle("Success")
-                                                            .setMessage("Leave request submitted \n Email send to HOD \n Mr Kudzai Makufa ")
-                                                          .setPositiveButton(android.R.string.yes, null).create().show();
-                                                    // fullname.setText("");startdate.setText("");enddate.setText("");notes.setText("");
+                                                TestInternet TI = new TestInternet();
+
+
+                                                if (TI.checkOnlineState(getActivity()) == true) {
+
+                                                    try {
+
+
+                                                        new ServiceLogin().execute(leavetype, startdate.getText().toString(), enddate.getText().toString(), daytype, notes.getText().toString());
+
+                                                        boolean isInserted = myDb.insertLeave("leave", fullname.getText().toString(), leavetype, startdate.getText().toString(),
+                                                                enddate.getText().toString(), daytype, notes.getText().toString());
+                                                        new EmailSenderAsync().execute(email
+                                                                , fullname.getText().toString() + " applied for a " + leavetype +
+                                                                        " from " + startdate.getText().toString() + " to " + enddate.getText().toString() + "\n Regards \n Simba Education \n Email was generated by REPORTit Mobile APP", "Leave Application");
+
+                                                        if (isInserted == true) {
+                                                            new AlertDialog.Builder(getActivity())
+                                                                    .setTitle("Success")
+                                                                    .setMessage("Leave request submitted to \n '"+email+"'")
+                                                                    .setPositiveButton(android.R.string.yes, null).create().show();
+                                                            // fullname.setText("");startdate.setText("");enddate.setText("");notes.setText("");
+                                                        } else {
+                                                            Toast.makeText(getActivity(), "Failed to submit Request", Toast.LENGTH_SHORT).show();
+                                                        }
+
+                                                    } catch (Exception e) {
+                                                        ShowMessage so = new ShowMessage();
+                                                        so.showMessage(getActivity(), "Error", "cannot submit leave form no connection");
+                                                    }
+
                                                 } else {
-                                                    Toast.makeText(getActivity(), "Failed to submit Request", Toast.LENGTH_SHORT).show();
+                                                    ShowMessage so = new ShowMessage();
+                                                    so.showMessage(getActivity(), "Error", "Not connected to Internet");
                                                 }
 
 
-
-
-
-                                            }
-                                            catch (Exception e){
-                                                ShowMessage so = new ShowMessage();
-                                                so.showMessage(getActivity(),"Error","cannot submit leave form no connection");
+                                            } catch (Exception e) {
+                                                Toast.makeText(getActivity(), "Fill in the amount input fields", Toast.LENGTH_SHORT).show();
                                             }
 
                                         }
-                                        else{
-                                            ShowMessage so = new ShowMessage();
-                                            so.showMessage(getActivity(),"Error","Not connected to Internet");
-                                        }
 
 
-
-
-                                    }catch(Exception e){
-                                        Toast.makeText(getActivity(), "Fill in the amount input fields", Toast.LENGTH_SHORT).show();
                                     }
-
-
                                 }
 
                                 // Intent intent = new Intent(".ShowSubscriptions");
@@ -537,9 +505,6 @@ public class initialSystemView extends AppCompatActivity {
 
                             }
 
-
-
-                        }
                 );
 
 
@@ -577,6 +542,8 @@ public class initialSystemView extends AppCompatActivity {
                 btntask = (Button)rootView.findViewById(R.id.btntask);
                 edtxtReportDate = (EditText)rootView.findViewById(R.id.edtxtReportDate);
                 final EditText edtxtname = (EditText)rootView.findViewById(R.id.edtxtname);
+                edtxtname.setText(session.getuserid());
+                edtxtname.setFocusable(false);
                 final EditText edtxtReportNum =  (EditText)rootView.findViewById(R.id.edtxtReportNum);
                 taskdate = (EditText)rootView.findViewById(R.id.taskdate);
                 final EditText taskdescription = (EditText)rootView.findViewById(R.id.taskDescription);
@@ -626,6 +593,8 @@ public class initialSystemView extends AppCompatActivity {
                     }
                 });
 
+
+
                 taskdate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -638,39 +607,43 @@ public class initialSystemView extends AppCompatActivity {
                     }
                 });
 
-
+                final int[] countgoalclick = {0};
 
                 btnaddgoals.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        EditText edtxtgoals ;
-                        for(int i = 0; i < 5; i++){
-
-                            edtxtgoals = new EditText(getActivity());
-                            edtxtgoals.setHint(""+i);
-                            edtxtgoals.setId(i);
-                            goals.add(edtxtgoals);
+                        EditText edtxtgoals;
 
 
-                            if(edtxtgoals.getParent() != null) {
-                                ((ViewGroup)edtxtgoals.getParent()).removeView(edtxtgoals);
+                                countgoalclick[0]++;
+                                edtxtgoals = new EditText(getActivity());
+                                edtxtgoals.setHint("" + countgoalclick[0]);
+                                edtxtgoals.setId(countgoalclick[0]);
+                                goals.add(edtxtgoals);
+
+
+                                if (edtxtgoals.getParent() != null) {
+                                    ((ViewGroup) edtxtgoals.getParent()).removeView(edtxtgoals);
+                                }
+                                layoutgoal.removeView(rootView);
+                                layoutgoal.addView(edtxtgoals);
                             }
-                            layoutgoal.removeView(rootView);
-                            layoutgoal.addView(edtxtgoals);
-                        }
-                    }
+
                 });
+                final int[] countobjclick = {0};
 
                 btnaddobjectives.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        objectives.add(edtxtinitObj);
-                        for(int x = 0;x<5 ; x++){
+                        countobjclick[0]++;
+
+                            objectives.add(edtxtinitObj);
+
                             edtxtobj = new EditText(getActivity());
-                            edtxtobj.setHint(""+x);
-                            edtxtobj.setId(x);
+                            edtxtobj.setHint(""+countobjclick[0]);
+                            edtxtobj.setId(countobjclick[0]);
                             objectives.add(edtxtobj);
 
                             if(edtxtobj.getParent() != null) {
@@ -680,13 +653,14 @@ public class initialSystemView extends AppCompatActivity {
                             layoutobj.addView(edtxtobj);
 
 
-                        }
+
                     }
                 });
 
                 btnsubmitReport.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
 
                         if(deadline.size() == 0 && task.size() == 0  && status.size() == 0){
                             if(taskdate.getText().toString() == "" ||taskdescription.getText().toString() == "" || taskstatus.getText().toString() == ""){

@@ -55,7 +55,7 @@ public class AdminPortal extends AppCompatActivity {
 
                         boolean isInserted = myDb.insertUser("Users",myname.getText().toString(),
                                 myemail.getText().toString(),
-                                mypassword.getText().toString() , usertype,1);
+                                mypassword.getText().toString() , usertype,1,"male");
                         if(isInserted == true)
                             Toast.makeText(AdminPortal.this,"Data Inserted",Toast.LENGTH_LONG).show();
                         else

@@ -50,15 +50,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.simbaeducation.reportIt.Manage"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name=".Manage" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.simbaeducation.reportIt.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -79,10 +70,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.simbaeducation.reportIt.adminFromSettings"
-            android:screenOrientation="portrait">
+            android:name="com.simbaeducation.reportIt.Settings"
+            android:screenOrientation="portrait"
+            android:noHistory="true">
             <intent-filter>
-                <action android:name=".adminFromSettings" />
+                <action android:name=".Settings" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

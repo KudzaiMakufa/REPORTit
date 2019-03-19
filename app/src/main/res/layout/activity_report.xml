@@ -7,7 +7,7 @@
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="577dp"
+        android:layout_height="490dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:overScrollMode="ifContentScrolls"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="Monthly Goals"
                 android:textAlignment="center"
-                android:textColor="#34ACD6"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -97,22 +97,24 @@
 
                 <Button
                     android:id="@+id/btnaddgoals"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/add"
+                    android:background="@drawable/buttonlayout"
+                    android:text="add more goals"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
+
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/blankPlaceholder"
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <TextView
                 android:id="@+id/textView21"
@@ -120,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="My Objectives"
                 android:textAlignment="center"
-                android:textColor="#34ACD6"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -146,19 +148,21 @@
 
                 <Button
                     android:id="@+id/btnobjectives"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/add"
+                    android:background="@drawable/buttonlayout"
+                    android:text="add more objectives"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/blankPlaceholder2"
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="20dp" />
 
             <LinearLayout
                 android:id="@+id/linearTasks"
@@ -172,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:text="Task"
                     android:textAlignment="center"
-                    android:textColor="#34ACD6"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -211,12 +215,14 @@
 
                 <Button
                     android:id="@+id/btntask"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/add"
+                    android:background="@drawable/buttonlayout"
+                    android:text="add new task"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold" />
             </RelativeLayout>
 

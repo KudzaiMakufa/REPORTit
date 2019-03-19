@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.simbaeducation.reportIt.Db_Operations;
@@ -35,10 +37,23 @@ public class Register extends AppCompatActivity {
 
     public  void AddData() {
 
+        final Spinner spngender = (Spinner)findViewById(R.id.spinner);
         final Button Register = (Button) findViewById(R.id.btnRegister);
         final EditText full_name = (EditText)findViewById(R.id.full_name);
         final EditText email = (EditText)findViewById(R.id.edtxtEmail);
         final EditText password = (EditText)findViewById(R.id.edtxtCode);
+
+        String []  gender = new String[]{"Select gender","female", "male"};
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(Register.this, android.R.layout.simple_spinner_dropdown_item, gender);
+        // Specify the layout to use when the list of choices appears
+
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+
+        spngender.setAdapter(adapter2);
 
         Register.setOnClickListener(
                 new View.OnClickListener() {
@@ -46,6 +61,9 @@ public class Register extends AppCompatActivity {
                     public void onClick(View v) {
 
                         if(full_name.getText().toString() =="" || email.getText().toString() == "" || password.getText().toString() == "" ){
+                            Toast.makeText(Register.this, "Fill all the fields", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(spngender.getSelectedItem().toString() == "Select gender"){
 
                         }
                         else{
@@ -59,7 +77,7 @@ public class Register extends AppCompatActivity {
 
                             boolean isInserted = myDb.insertUser("Users", full_name.getText().toString(),
                                     email.getText().toString(),
-                                    password.getText().toString(), 0, 0);
+                                    password.getText().toString(), 0, 0,spngender.getSelectedItem().toString());
 
                             boolean tempcodeInsert = myDb.insertTemp_codes("Temp_Codes", VerifCode, email.getText().toString());
 

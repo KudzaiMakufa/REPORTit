@@ -57,7 +57,7 @@ public class Pdf_Op_Method {
             y = y0+20;
            y0 = y;
 
-            canvas.drawText("* ->   " + goals.get(i).getText().toString(), 10, y, paint);
+            canvas.drawText("->   " + goals.get(i).getText().toString(), 10, y, paint);
 
         }
 

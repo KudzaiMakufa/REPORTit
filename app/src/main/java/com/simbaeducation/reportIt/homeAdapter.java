@@ -88,9 +88,9 @@ public class homeAdapter extends ArrayAdapter<LeaveTaken> {
         //String datetoshow= format.format(date);
         holder.title.setText(leavetaken.getDate());
             holder.desc.setText(leavetaken.getNotes());
-        if(leavetaken.getDaytype().equals("HD-PM")){
+        if(leavetaken.getDaytype().equals("Half (PM)")){
             holder.amount.setText("Half Day(PM)");
-        }else if(leavetaken.getDaytype().equals("HD-AM")){
+        }else if(leavetaken.getDaytype().equals("Half (AM)")){
             holder.amount.setText("Half Day(AM)");
         }else{
             holder.amount.setText("Whole Day");

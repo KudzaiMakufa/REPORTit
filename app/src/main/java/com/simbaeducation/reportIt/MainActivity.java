@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public void OnclickButtonListener(){
 
 
-        buttonLogin = (Button)findViewById(R.id.button);
+        buttonLogin = (Button)findViewById(R.id.btn_save);
         buttonLogin.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                        final EditText edemail = (EditText)findViewById(R.id.editText);
+                        final EditText edemail = (EditText)findViewById(R.id.edtxtemail);
                         final EditText edpass = (EditText)findViewById(R.id.editTextPassword);
                         final TextView textView5 = (TextView)findViewById(R.id.textView5);
                         final ImageView imageView = (ImageView)findViewById(R.id.imageView);
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                         Cursor res = myDb.getLoginData("Users" , edemail.getText().toString(), edpass.getText().toString());
 
                         if(res.getCount() == 0) {
-                           // myDb.insertUser("Users","Admin","","" , 0,1);
+                         //  myDb.insertUser("Users","Kidkudzy","","" , 0,1,"male");
+
 
 
                             edemail.setVisibility(View.GONE);
@@ -129,6 +130,15 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                                 else{
+                                    res.moveToFirst();
+
+                                    //setting user id to session
+                                    Session session;//global variable
+                                    session = new Session(MainActivity.this);
+                                    session.setuserid(res.getString(1));
+                                    session.setgender(res.getString(6));
+
+
 
 
                                     edemail.setText("");
@@ -159,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     public void AdminFromSettings(final Context context){
 
 
-        buttonLogin = (Button)findViewById(R.id.button);
+        buttonLogin = (Button)findViewById(R.id.btn_save);
         buttonLogin.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -169,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                        EditText edemail = (EditText)findViewById(R.id.editText);
+                        EditText edemail = (EditText)findViewById(R.id.edtxtemail);
                         EditText edpass = (EditText)findViewById(R.id.editTextPassword);
                         TextView txtView = (TextView)findViewById(R.id.textViewLoginError);
 

@@ -16,12 +16,15 @@ public class Db_Operations extends SQLiteOpenHelper {
     public static final String TABLE_NAME3 = "Subscriptions";
     public static final String TABLE_NAME4 = "Leave";
     public static final String TABLE_NAME5 = "Temp_Codes";
+    public static final String TABLE_NAME6 = "hodmail";
     public static final String COL_1 = "ID";
     public static final String COL_2 = "NAME";
     public static final String COL_3 = "EMAIL";
     public static final String COL_4 = "PASSWORD";
     public static final String COL_5 = "USER_TYPE";
     public static final String COL_6 = "ISACTIVATED";
+    public static final String COL_7 = "GENDER";
+
 
 
     public Db_Operations(Context context) {
@@ -30,11 +33,12 @@ public class Db_Operations extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,EMAIL TEXT,PASSWORD TEXT,USER_TYPE TEXT ,ISACTIVATED TEXT)");
+        db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,EMAIL TEXT,PASSWORD TEXT,USER_TYPE TEXT ,ISACTIVATED TEXT,GENDER TEXT)");
         db.execSQL("create table " + TABLE_NAME2 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,DATE TEXT,AMOUNT INTEGER,DESCRIPTION TEXT)");
         db.execSQL("create table " + TABLE_NAME3 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,DATE TEXT,FULL_NAME TEXT,DISTRICT TEXT,AMOUNT INTEGER,PURPOSE TEXT,PAYMODE TEXT,REFERENCE TEXT)");
         db.execSQL("create table " + TABLE_NAME4 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,FULL_NAME TEXT,LEAVE_TYPE TEXT,STARTDATE TEXT,ENDDATE TEXT,DAY_TYPE TEXT,NOTES TEXT)");
         db.execSQL("create table " + TABLE_NAME5 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,CODE TEXT,EMAIL TEXT)");
+        db.execSQL("create table " + TABLE_NAME6 +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,EMAIL TEXT)");
     }
 
     @Override
@@ -42,10 +46,13 @@ public class Db_Operations extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME2);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME3);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME4);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME5);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME6);
         onCreate(db);
     }
 
-    public boolean insertUser(String table_name, String name, String email, String password, int usertype , int isactivated) {
+    public boolean insertUser(String table_name, String name, String email, String password, int usertype , int isactivated,String gender) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2,name);
@@ -53,13 +60,23 @@ public class Db_Operations extends SQLiteOpenHelper {
         contentValues.put(COL_4,password);
         contentValues.put(COL_5,usertype);
         contentValues.put(COL_6,isactivated);
+        contentValues.put(COL_7,gender);
         long result = db.insert(table_name,null ,contentValues);
         if(result == -1)
             return false;
         else
             return true;
     }
-
+    public boolean insertHod(String table_name, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("EMAIL",email);
+        long result = db.insert(table_name,null ,contentValues);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
     public boolean ActivateUser(String table_name,int isactivated ,String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -202,9 +219,9 @@ public class Db_Operations extends SQLiteOpenHelper {
        // return db.delete(table_name, "ID = ?",new String[] {id});
         return db.delete(table_name, "ID = ?",new String[] {id});
     }
-    public Integer SettleAccount (String table_name ) {
+    public Integer deleteHod (String table_name ,String email ) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // return db.delete(table_name, "ID = ?",new String[] {id});
-        return db.delete(table_name, null,null);
+         return db.delete(table_name, "EMAIL = ?",new String[] {email});
+        //return db.delete(table_name, null,null);
     }
 }
